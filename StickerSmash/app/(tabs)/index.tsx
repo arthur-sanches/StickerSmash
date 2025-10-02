@@ -1,6 +1,6 @@
 import { ImageSourcePropType, View, StyleSheet } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import Button from '@/components/Button';
@@ -18,6 +18,7 @@ export default function Index() {
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState<ImageSourcePropType | undefined>(undefined);
+  const [permissionResponse, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -49,6 +50,12 @@ export default function Index() {
   const onSaveImageAsync = async () => {
     // we will implement this later
   };
+
+  useEffect(() => {
+    if (!permissionResponse?.granted) {
+      requestPermission();
+    }
+  }, []);
 
   return (
     <GestureHandlerRootView style={styles.container}>
