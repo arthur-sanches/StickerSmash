@@ -88,7 +88,7 @@ export default function Index() {
     if (!permissionResponse?.granted) {
       requestPermission();
     }
-  }, []);
+  });
 
   return (
     <GestureHandlerRootView style={styles.container}>
